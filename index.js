@@ -65,7 +65,8 @@ async function main() {
     const novoItem = body.nome;
 
     // Adicionar o novo item na lista
-    itens.push(novoItem);
+    // itens.push(novoItem);
+    collection.insertOne({ nome: novoItem });
 
     // Enviar uma mensagem de sucesso
 
