@@ -1,8 +1,8 @@
 const express = require('express');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 
 const dbUrl = "mongodb+srv://alyssongabriel61:P3iei59L4F20ww2V@cluster0.dhjq9s8.mongodb.net";
-const dbName = "";
+const dbName = "ocean-jornada-backend-maio-2024";
 
 const client = new MongoClient(dbUrl);
 
@@ -28,20 +28,27 @@ async function main() {
   const itens = ["Rick sanches", "Morty Smith", "Summer Smith"];
   //              0               1               2
 
+  const db = client.db(dbName);
+  const collection = db.collection('item');
+
   // Endpoint de Read All [GET] /item
 
-  app.get('/item', function (req, res) {
-    res.send(itens);
+  app.get('/item', async function (req, res) {
+   // Acesso a lista de documentos na collection
+    const documentos = await collection.find().toArray();
+    // Envio os documentos como resposta
+    res.send(documentos);
   });
 
   // Endpoint de Read By ID [GET] /item/:id/
-  app.get('/item/:id', function (req, res) {
+  app.get('/item/:id', async function (req, res) {
     // Acessamos o parâmetro de roda ID
-    const id = req.params.id
+    const id = req.params.id;
 
-    // Acessamos o item na lista usando o ID - 1
-    const item = itens[id - 1];
+    //Acessamos o item na collection usando o ID
+    const item = await collection.findOne({ _id: new ObjectId(id)});
 
+    // Enviamos o item encontrado como resposta
     res.send(item);
   });
   // Sinalizamos que todo corpo de requisição
