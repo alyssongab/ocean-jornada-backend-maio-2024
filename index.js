@@ -70,7 +70,7 @@ async function main() {
 
     // Enviar uma mensagem de sucesso
 
-    res.send(`'Item adicionado com sucesso: ${novoItem}`);
+    res.send(`Item adicionado com sucesso: ${novoItem}`);
   });
 
   // Endpoint de Update [PUT] /item/:id
